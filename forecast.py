@@ -8,9 +8,9 @@ segments[:3]
 waypoints = pd.read_csv('geo/waypoints.csv').set_index('pid').sort_index()
 waypoints[:3]
 
-perf_speed = pd.read_csv('perfs_speed_interpol.csv')
+perf_speed = pd.read_csv('data/perfs_speed_interpol.csv')
 # perf_sail = pd.read_csv('perfs_sail_raw.csv')
-perf_sail = pd.read_csv('perfs_sail_interpol.csv')
+perf_sail = pd.read_csv('data/perfs_sail_interpol.csv')
 
 # test_data = pd.read_csv('data_clean.csv')[40:140]
 # test_data[:3]

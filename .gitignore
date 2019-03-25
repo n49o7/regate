@@ -1,5 +1,4 @@
 charts/
-geo/
 __pycache__/
 
 geckodriver.log
