@@ -1,0 +1,7 @@
+charts/
+geo/
+__pycache__/
+
+geckodriver.log
+run.py
+regate.log
