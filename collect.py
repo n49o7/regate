@@ -1,3 +1,5 @@
+# Scrape data from the web interface.
+
 from selenium import webdriver
 import csv
 import time

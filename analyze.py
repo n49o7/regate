@@ -1,3 +1,5 @@
+# Module to conduct sexy data anlaysis.
+
 import pandas as pd
 import numpy as np
 import altair as alt

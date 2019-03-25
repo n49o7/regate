@@ -1,4 +1,5 @@
-# Steering the boat.
+# Module to steer the boat.
+
 from selenium.webdriver.common.keys import Keys
 import collect as co
 import datetime

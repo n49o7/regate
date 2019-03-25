@@ -1,3 +1,6 @@
+# Integrated auto-log and auto-pilot.
+# Aims to replace the "module & globals" approach.
+
 import pandas as pd
 import numpy as np
 import altair as alt
