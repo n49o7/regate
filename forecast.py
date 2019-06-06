@@ -5,10 +5,10 @@ import numpy as np
 import requests
 
 segments = pd.read_csv('geo/segments.csv').set_index('sid').sort_index()
-segments[:3]
+# segments[:3]
 
 waypoints = pd.read_csv('geo/waypoints.csv').set_index('pid').sort_index()
-waypoints[:3]
+# waypoints[:3]
 
 perf_speed = pd.read_csv('data/perfs_speed_interpol.csv')
 # perf_sail = pd.read_csv('perfs_sail_raw.csv')
@@ -35,7 +35,7 @@ def route_map(stop, date, time):
 # bbox2 = 39.351290+1.933594+43.834527+10.788574
 
 # bbox1, wm=0.2
-route_map(2, 20190325, 15)
+route_map(18, 20190608, 0)
 
 def cache_forecast(date,time):
     """ Wind forecast at YYYMMDD <date> and UTC <time>. """
@@ -47,7 +47,7 @@ def cache_forecast(date,time):
     forecast = pd.DataFrame(r.json(), columns=columns)
     for c in columns[:-1]:
         forecast[c] = pd.to_numeric(forecast[c])
-        return forecast
+    return forecast
 
 def wpts_map(stop, date, time):
     """ List of waypoints until <stop>. """
@@ -62,8 +62,7 @@ def wpts_map(stop, date, time):
         hops.loc[int(wpt),:] = row
     return hops
 
-wpts_map(2, 20190325, 15)
-
+wpts_map(18, 20190608, 0)
 
 def time_sum(stop, date, time):
     """ Time taken until <stop>. """
@@ -161,11 +160,22 @@ def df(date):
     return date[:4]+'.'+date[4:6]+'.'+date[6:]
 
 
+
+
+
+
+
 import altair as alt
-import seaborn as sns
+# import seaborn as sns
+#
 
-g = sns.pairplot(x)
+t = pd.DataFrame([], columns=["ang","ang_abs"])
 
-g.savefig('tst.png')
+for ang in np.arange(-200, 200, 0.33):
+    # print({'ang':ang,'ang_abs':ang_abs(ang)})
+    t = t.append({'ang':ang,'ang_abs':ang_abs(ang)}, ignore_index=True)
 
-forecast
+alt.Chart(t).mark_point().encode(
+    x = 'ang',
+    y = 'ang_abs'
+)
