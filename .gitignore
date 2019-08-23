@@ -4,3 +4,6 @@ __pycache__/
 geckodriver.log
 run.py
 regate.log
+
+.gitattributes
+.gitignore
