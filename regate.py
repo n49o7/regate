@@ -1,5 +1,4 @@
-# Integrated auto-log and auto-pilot.
-# Aims to replace the "module & globals" approach.
+""" Class-based approach. """
 
 import pandas as pd
 import numpy as np

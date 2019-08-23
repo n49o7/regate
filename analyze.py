@@ -1,11 +1,13 @@
-# Module to conduct sexy data anlaysis.
+"""
+Conduct sexy data anlaysis.
+"""
 
 import pandas as pd
 import numpy as np
 import altair as alt
 
 def valid(row):
-    # Sum the angles to check for errors while recording.
+    """ Sum the angles to check for errors while recording """
     try:
         int(row['w_azi']), int(row['b_rte']), int(row['w_ang'])
         return True if int(row['w_azi']) - int(row['b_rte']) == int(row['w_ang']) else False
@@ -13,11 +15,11 @@ def valid(row):
         return False
 
 def ang_a(a):
-    # Return the absolute value of the wind angle, between 0 and 180.
+    """ Return the absolute value of the wind angle, between 0 and 180 """
     return int( np.degrees(np.arccos(np.cos(np.radians( int(a) % 360 )))) )
 
 def changed(r):
-    # Count the number of sailing parameters changed compared to the previous row.
+    """ Count the number of sailing parameters changed compared to the previous row """
     p = ['b_sails', 'w_ang', 'w_spd', 'b_spd']
     x = r.name-1
     q =  data.loc[x,:]

@@ -1,4 +1,6 @@
-# Scrape data from the web interface.
+"""
+Scrape data from the web interface.
+"""
 
 from selenium import webdriver
 import csv
@@ -8,6 +10,7 @@ import logging
 logging.basicConfig(filename='regate.log',level=logging.INFO)
 
 def initialize():
+    """ Launch a browser """
     global f, data, last, browser
     f = 'data_raw.csv'
     data = []
@@ -18,7 +21,7 @@ def initialize():
     browser.switch_to.frame("login-iframe")
 
 def login(u, p):
-    # Attempt to login automatically.
+    """ Attempt to login automatically """
     browser.find_element_by_css_selector('[for="name"]').click()
     browser.find_element_by_id('name').send_keys(u)
     browser.find_element_by_css_selector('[for="pass"]').click()
@@ -31,16 +34,17 @@ def login(u, p):
     b.click()
 
 def current_sail():
-    # Get the current sail.
+    """ Get the current sail """
     for i in browser.find_elements_by_css_selector('[damo-trigger="changeSail(this)"]'):
         if '_on' in i.get_attribute('class'):
             return i.get_attribute("title")
 
 def current_b_spd():
+    """ Get the current boat speed """
     return browser.find_element_by_css_selector('[damo-id="boat.speed"]').text
 
 def params():
-    # Get the current sailing parameters and store them in the global scope.
+    """ Get the current sailing parameters and store them in the global scope """
     global data
     b_sails = current_sail()
     # for i in browser.find_elements_by_css_selector('[damo-trigger="changeSail(this)"]'):
@@ -60,7 +64,7 @@ def params():
     data = [w_azi, w_spd, b_rte, w_ang, b_sails, b_spd, chrono, b_lon, b_lat]
 
 def export():
-    # Write the latest data to a file.
+    """ Write the latest data to a file """
     global last
     with open(f, 'a', newline='', encoding='utf-8') as file:
         writer = csv.writer(file, delimiter=',', quotechar='|')
@@ -71,9 +75,11 @@ def export():
             last = diff
 
 def record(limit=30, i=4):
-    # Record all the data.
-    # "limit" is roughly the number of minutes to run this for
-    # "i" is the interval in seconds
+    """
+    Record all the data.
+    "limit" is roughly the number of minutes to run this for.
+    "i" is the interval in seconds.
+    """
     logging.info('Started recording %s', datetime.datetime.now())
     t = 0
     while t <= limit*60:
@@ -83,6 +89,7 @@ def record(limit=30, i=4):
     logging.info('Ended recording %s', datetime.datetime.now())
 
 # def minimalize():
+# """ Manipulate the CSS for a cleaner virtual sailing experience """
 #     title
 #         0000000000000
 #     header, footer, .banner

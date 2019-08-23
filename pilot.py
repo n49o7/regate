@@ -1,4 +1,4 @@
-# Module to steer the boat.
+""" Module to steer the boat. """
 
 from selenium.webdriver.common.keys import Keys
 import collect as co
@@ -8,21 +8,21 @@ import logging
 import random
 
 def rte(route):
-    # Set a course.
+    """ Set a course. """
     rte = co.browser.find_element_by_id('boat.cap')
     rte.send_keys(Keys.CONTROL + "a")
     rte.send_keys(route)
     rte.send_keys(Keys.RETURN)
 
 def ang(angle):
-    # Set a wind angle.
+    """ Set a wind angle. """
     ang = co.browser.find_element_by_id('boat.capReg')
     ang.send_keys(Keys.CONTROL + "a")
     ang.send_keys(angle)
     ang.send_keys(Keys.RETURN)
 
 def rig(arg=False):
-    # Set a sail configuration. Use its number (0 to 4) or name (ex:'GV Genois').
+    """ Set a sail configuration. Use its number (0 to 4) or name (ex:'GV Genois'). """
     sails = co.browser.find_elements_by_css_selector('[damo-trigger="changeSail(this)"]')
     # success = False
     for s in sails:
@@ -31,7 +31,7 @@ def rig(arg=False):
             logging.info('Selecting sail %s: %s', sails.index(s), s.get_attribute('title'))
 
 def circle(sails=[0,1,2,3,4]):
-    # Sail in circles, trying specified configurations and recording data.
+    """ Sail in circles, trying specified configurations and recording data. """
     logging.info('Started circling with sails %s at %s', sails, datetime.datetime.now())
     co.params()
     out_r = co.data[2]
@@ -50,7 +50,7 @@ def circle(sails=[0,1,2,3,4]):
     logging.info('Ended circling %s', datetime.datetime.now())
 
 def detect(limit=30):
-    # If the latest wind speed is of interest, sail in circles.
+    """ If the latest wind speed is of interest, sail in circles. """
     # "limit" is (very) roughly the number of minutes to run this for
     global w_spd_todo
     logging.info('Started detecting %s', datetime.datetime.now())
@@ -68,7 +68,7 @@ def detect(limit=30):
     logging.info('Ended detecting %s', datetime.datetime.now())
 
 def detect_old(limit=30):
-    # If the latest wind speed is of interest, sail in circles.
+    """ If the latest wind speed is of interest, sail in circles. """
     # "limit" is (very) roughly the number of minutes to run this for
     global w_spd_todo
     logging.info('Started detecting %s', datetime.datetime.now())
@@ -97,7 +97,7 @@ def best_sail():
     pass
 
 # def best_sail():
-#     # Try all sails and set the best one.
+# """   Try all sails and set the best one. """
 #     sails = browser.find_elements_by_css_selector('[damo-trigger="changeSail(this)"]')
 #     initial_speed = data[5]
 #     best = current_sail()
