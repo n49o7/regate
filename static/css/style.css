@@ -1,0 +1,29 @@
+:root {
+    --base-padding: .5em
+}
+
+body { margin: 0 }
+
+.content { display: flex; flex-direction: column }
+
+.header { display: flex; padding: var(--base-padding); background: #cdf }
+
+.header > div { margin-right: 1em }
+
+.dash { display: flex; background: pink }
+
+.dash, .dash > * { flex: 1 }
+
+.panelComponent {
+    padding: var(--base-padding);
+    background: #eee
+}
+
+.instrumentComponent {
+    background: #ccc
+}
+
+.dropdownContent { display: none }
+.dropdownButton:active .dropdownContent { display: block }
+
+/* div { border: 1px solid grey; } */

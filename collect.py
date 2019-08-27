@@ -2,36 +2,14 @@
 Scrape data from the web interface.
 """
 
-from selenium import webdriver
+
 import csv
 import time
 import datetime
 import logging
 logging.basicConfig(filename='regate.log',level=logging.INFO)
 
-def initialize():
-    """ Launch a browser """
-    global f, data, last, browser
-    f = 'data_raw.csv'
-    data = []
-    last = []
-    browser = webdriver.Firefox()
-    browser.get("https://excess-catamarans.com/challenge")
-    browser.find_element_by_id('accept-cookies').click()
-    browser.switch_to.frame("login-iframe")
 
-def login(u, p):
-    """ Attempt to login automatically """
-    browser.find_element_by_css_selector('[for="name"]').click()
-    browser.find_element_by_id('name').send_keys(u)
-    browser.find_element_by_css_selector('[for="pass"]').click()
-    browser.find_element_by_id('pass').send_keys(p)
-    # time.sleep(2)
-    # browser.sendKeys(Keys.PAGE_DOWN)
-    # .scrollIntoView()
-    b = browser.find_element_by_css_selector('[onclick="javascript:goLogin()"]')
-    # browser.execute_script("arguments[0].scrollIntoView();", b)
-    b.click()
 
 def current_sail():
     """ Get the current sail """

@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="header">
+        <div>Nom</div>
+        <div>Temps</div>
+        <button onclick="addPanel()">add panel</button>
+    </div>
+
+    <div class="dash"></div>
+
+    <script>
+        window.onload = function() {
+            addPanel();addPanel();addPanel();
+        }
+    </script>
+
+    <template id="panelComponent">
+        <div class="panelComponent">
+            <p>panel</p>
+            <button onclick="this.parentNode.remove()">remove</button>
+            <p></p>
+            <!-- <button onclick="addInstrument(this.parentNode)">add instrument</button> -->
+
+        </div>
+    </template>
+
+    <template id="instrumentComponent">
+        <div class="instrumentComponent">
+            <p>instrument</p>
+            <p></p>
+            <button onclick="this.parentNode.remove()">remove</button>
+        </div>
+    </template>
+
+    <script>
+        function addPanel() {
+            node = document.querySelector('.dash')
+            el = panelComponent.content.cloneNode(true)
+            node.appendChild(el)
+        }
+        function addInstrument(node) {
+            el = instrumentComponent.content.cloneNode(true)
+            node.appendChild(el)
+        }
+    </script>
+
+{% endblock %}
