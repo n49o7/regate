@@ -12,7 +12,7 @@ class WebFrame(wx.Frame):
     def __init__(self, parent, title):
         super().__init__(parent, title=title)
         self._web = html2.WebView.New(self)
-        self._web.LoadURL("http://127.0.0.1:23914/login")
+        self._web.LoadURL("http://127.0.0.1:23914/")
         # self.Bind(html2.EVT_WEBVIEW_TITLE_CHANGED, self.OnTitle)
 
         def OnTitle(self, event):

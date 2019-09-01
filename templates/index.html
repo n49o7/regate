@@ -1,49 +1,70 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Régate</title>
+        <!-- SPECTRE -->
+        <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+        <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
+        <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
+        <!-- CUSTOM -->
+        <link rel="stylesheet" href="static/css/style.css"/>
+        <!-- <script type="text/javascript" src="static/javascript/stamp.js"></script> -->
+        <!-- <style></style> -->
+    </head>
+    <body class="flex-col">
+        <!-- <div class="content flex-col"> -->
 
-{% block content %}
 
-    <div class="header">
-        <div>Nom</div>
-        <div>Temps</div>
-        <button onclick="addPanel()">add panel</button>
+
+    <div class="header flex-row">
+        <div class="flex-col">
+            <div>Name</div>
+            <div>Chrono:</div>
+        </div>
+        <div>Pilot</div>
+        <div class=""><button class="btn btn-action"><i class="icon icon-edit"></i></button></div>
     </div>
 
-    <div class="dash"></div>
+    <div class="dash flex-row expand" id="pilot-dash">
+        <div class="left flex-col expand">
+            <div class="left-top expand">Perf</div>
+            <div class="left-bottom expand">Logs & Charts</div>
+        </div>
+        <div class="right flex-col">
+            <div class="right-top expand">Auto-pilot & Watch</div>
+            <div class="right-bottom expand">Route</div>
+        </div>
+    </div>
 
-    <script>
-        window.onload = function() {
-            addPanel();addPanel();addPanel();
-        }
-    </script>
+    <div class="dash flex-row expand" id="research-dash">
+        <div class="left flex-col expand">
+            <div class="left-top expand">Charts</div>
+            <div class="left-bottom expand">Logs</div>
+        </div>
+        <div class="right flex-col">
+            <div class="right-top expand">Messages</div>
+            <div class="right-bottom expand">Tests</div>
+        </div>
+    </div>
 
-    <template id="panelComponent">
-        <div class="panelComponent">
-            <p>panel</p>
-            <button onclick="this.parentNode.remove()">remove</button>
-            <p></p>
-            <!-- <button onclick="addInstrument(this.parentNode)">add instrument</button> -->
-
+    <template>
+        <div class="dash flex-row expand" id="research-dash">
+            <div class="left flex-col expand">
+                <div class="left-top expand">Charts</div>
+                <div class="left-bottom expand">Logs</div>
+            </div>
+            <div class="right flex-col">
+                <div class="right-top expand">Messages</div>
+                <div class="right-bottom expand">Tests</div>
+            </div>
         </div>
     </template>
 
-    <template id="instrumentComponent">
-        <div class="instrumentComponent">
-            <p>instrument</p>
-            <p></p>
-            <button onclick="this.parentNode.remove()">remove</button>
-        </div>
-    </template>
+    <!-- <script>
+    </script> -->
 
-    <script>
-        function addPanel() {
-            node = document.querySelector('.dash')
-            el = panelComponent.content.cloneNode(true)
-            node.appendChild(el)
-        }
-        function addInstrument(node) {
-            el = instrumentComponent.content.cloneNode(true)
-            node.appendChild(el)
-        }
-    </script>
 
-{% endblock %}
+
+        <!-- </div> -->
+    </body>
+</html>
