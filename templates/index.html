@@ -8,63 +8,236 @@
         <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
         <!-- CUSTOM -->
         <link rel="stylesheet" href="static/css/style.css"/>
+        <script type="text/javascript" src="static/javascript/knockout.js"></script>
         <!-- <script type="text/javascript" src="static/javascript/stamp.js"></script> -->
         <!-- <style></style> -->
     </head>
     <body class="flex-col">
-        <!-- <div class="content flex-col"> -->
-
-
-
-    <div class="header flex-row">
-        <div class="flex-col">
-            <div>Name</div>
-            <div>Chrono:</div>
-        </div>
-        <div>Pilot</div>
-        <div class=""><button class="btn btn-action"><i class="icon icon-edit"></i></button></div>
-    </div>
-
-    <div class="dash flex-row expand" id="pilot-dash">
-        <div class="left flex-col expand">
-            <div class="left-top expand">Perf</div>
-            <div class="left-bottom expand">Logs & Charts</div>
-        </div>
-        <div class="right flex-col">
-            <div class="right-top expand">Auto-pilot & Watch</div>
-            <div class="right-bottom expand">Route</div>
-        </div>
-    </div>
-
-    <div class="dash flex-row expand" id="research-dash">
-        <div class="left flex-col expand">
-            <div class="left-top expand">Charts</div>
-            <div class="left-bottom expand">Logs</div>
-        </div>
-        <div class="right flex-col">
-            <div class="right-top expand">Messages</div>
-            <div class="right-bottom expand">Tests</div>
-        </div>
-    </div>
-
-    <template>
-        <div class="dash flex-row expand" id="research-dash">
-            <div class="left flex-col expand">
-                <div class="left-top expand">Charts</div>
-                <div class="left-bottom expand">Logs</div>
+        <header class="header navbar">
+            <section class="navbar-section">
+                <a class="btn btn-link" data-bind="text: boat.name"></a>
+                <a class="btn btn-link" data-bind="text: boat.time"></a>
+            </section>
+            <section class="navbar-center">
+                <a class="btn btn-link" onclick="switchMode()" data-bind="text: dash">Pilot</a>
+            </section>
+            <section class="navbar-section">
+                <a class="btn btn-link" onclick="switchTheme()"><i class="icon icon-edit"></i></a>
+                <a class="btn btn-link" onclick="console.log('Launch tutorial.')"><i class="icon icon-emoji"></i></a>
+            </section>
+        </header>
+        <div class="dash expand">
+            <div class="flex-col expand">
+                <div class="view expand">
+                    <input type="radio" id="tab1" name="tabs-a" class="tab-locator" hidden checked />
+                    <input type="radio" id="tab2" name="tabs-a" class="tab-locator" hidden />
+                    <ul class="tab">
+                        <li class="tab-item"><label for="tab1"><a data-bind="text: data[data.dash()].a"></a></label></li>
+                        <li class="tab-item"><label for="tab2"><a data-bind="text: data[data.dash()].b"></a></label></li>
+                    </ul>
+                    <div class="tabs">
+                        <div class="tab-content" data-bind="template: {name: data[data.dash()].a}"></div>
+                        <div class="tab-content" data-bind="template: {name: data[data.dash()].b}"></div>
+                    </div>
+                </div>
+                <div class="sep-horizontal"></div>
+                <div class="view expand">
+                    <input type="radio" id="tab3" name="tabs-b" class="tab-locator" hidden checked />
+                    <input type="radio" id="tab4" name="tabs-b" class="tab-locator" hidden />
+                    <ul class="tab">
+                        <li class="tab-item"><label for="tab3"><a data-bind="text: data[data.dash()].c"></a></label></li>
+                        <li class="tab-item"><label for="tab4"><a data-bind="text: data[data.dash()].d"></a></label></li>
+                    </ul>
+                    <div class="tabs">
+                        <div class="tab-content" data-bind="template: {name: data[data.dash()].c}"></div>
+                        <div class="tab-content" data-bind="template: {name: data[data.dash()].d}"></div>
+                    </div>
+                </div>
             </div>
-            <div class="right flex-col">
-                <div class="right-top expand">Messages</div>
-                <div class="right-bottom expand">Tests</div>
+            <div class="sep-vertical"></div>
+            <div class="flex-col sidebar">
+                <div class="view expand" data-bind="template: {name: data[data.dash()].e}"></div>
+                <div class="sep-horizontal"></div>
+                <div class="view expand" data-bind="template: {name: data[data.dash()].f}"></div>
             </div>
         </div>
-    </template>
 
-    <!-- <script>
-    </script> -->
+        <!-- PILOT MODE TEMPLATES -->
 
+        <template id="perf">
+            <div>performance model</div>
+        </template>
 
+        <template id="map">
+            <div>the map</div>
+        </template>
 
-        <!-- </div> -->
+        <template id="logs-pilot">
+            <div>all the sailing logs</div>
+            <section data-bind="foreach: ">
+                <p data-bind="text: "></p>
+            </section>
+        </template>
+
+        <template id="charts">
+            <div>a nice chart</div>
+        </template>
+
+        <template id="autopilot">
+            <div class="toaster">
+                <div class="toast toast-success"><p>Steering</p></div>
+                <div class="toast toast-warning"><p>Watching</p></div>
+                <div class="toast toast-error"><p>Alert</p></div>
+                <div class="toast"><p>Inactive</p></div>
+            </div>
+            <div>messages...</div>
+            <div>forecast:</div>
+        </template>
+
+        <template id="route">
+            <div class="navbar">
+                <div class="btn-group btn-group-block">
+                    <button class="btn btn-sm btn-link">add</button>
+                    <button class="btn btn-sm btn-link">remove</button>
+                </div>
+                <div class="btn-group btn-group-block">
+                    <button class="btn btn-sm btn-link"><i class="icon icon-upload"></i></button>
+                    <button class="btn btn-sm btn-link"><i class="icon icon-download"></i></button>
+                </div>
+            </div>
+            <table class="table table-hover">
+                <tbody data-bind="">
+                    <thead>
+                        <tr>
+                            <th>1</th>
+                            <th>2</th>
+                            <th>3</th>
+                            <th>4</th>
+                        </tr>
+                    </thead>
+                    <tr class="">
+                        <td data-bind="">#</td>
+                        <td data-bind="">long</td>
+                        <td data-bind="">lat</td>
+                        <td>x</td>
+                    </tr>
+                </tbody>
+            </table>
+        </template>
+
+        <!-- RESEARCH MODE TEMPLATES -->
+
+        <template id="model">
+            <div>modelling</div>
+        </template>
+
+        <template id="polar">
+            <div>polar view</div>
+        </template>
+
+        <template id="logs-research">
+            <div>all the research logs</div>
+            <section data-bind="">
+                <p data-bind="">a log line</p>
+            </section>
+        </template>
+
+        <template id="tables">
+            <table class="table table-hover">
+                <tbody data-bind="">
+                    <thead>
+                        <tr>
+                            <th>0</th>
+                            <th>1</th>
+                            <th>2</th>
+                            <th>3</th>
+                            <th>4</th>
+                        </tr>
+                    </thead>
+                    <tr class="">
+                        <td data-bind="">0</td>
+                        <td data-bind="">0</td>
+                        <td data-bind="">0</td>
+                        <td data-bind="">0</td>
+                    </tr>
+                </tbody>
+            </table>
+        </template>
+
+        <template id="messages">
+            <div>some useful info</div>
+        </template>
+
+        <template id="tests">
+            <div class="toaster">
+                <div class="toast toast-success">Active</div>
+            </div>
+            <div class="setting">
+                <span class="setting-title">Find wind</span>
+                <label class="form-switch">
+                    <input type="checkbox">
+                    <i class="form-icon"></i>
+                </label>
+                <div class="setting-description">Sail towards winds of speed for which there is no data.</div>
+            </div>
+            <div class="setting">
+                <span class="setting-title">Sail in circles</span>
+                <label class="form-switch">
+                    <input type="checkbox">
+                    <i class="form-icon"></i>
+                </label>
+                <div class="setting-description">When wind of a new speed is found, try all wind angles.</div>
+            </div>
+            <div class="setting">
+                <span class="setting-title">Try all rigs</span>
+                <label class="form-switch">
+                    <input type="checkbox">
+                    <i class="form-icon"></i>
+                </label>
+                <div class="setting-description">Use each rig every time.</div>
+            </div>
+        </template>
+
+        <script>
+            var data = {
+                dash: ko.observable("pilot"),
+                boat: {
+                    name: "Poulpos",
+                    time: "timestring"
+                },
+                pilot: {
+                    "a": "perf",
+                    "b": "map",
+                    "c": "logs-pilot",
+                    "d": "charts",
+                    "e": "autopilot",
+                    "f": "route"
+                },
+                research: {
+                    "a": "model",
+                    "b": "polar",
+                    "c": "logs-research",
+                    "d": "tables",
+                    "e": "messages",
+                    "f": "tests"
+                }
+            }
+            ko.applyBindings(data)
+            function switchMode() {
+                let d = ["pilot", "research"]
+                let i = d.findIndex(e=>e!=data.dash())
+                data.dash(d[i])
+            }
+            function switchTheme() {
+                document.body.hasAttribute('data-theme')
+                    ? document.body.removeAttribute('data-theme')
+                    : document.body.setAttribute('data-theme', 'bright')
+            }
+            function addPanel() {
+                node = document.querySelector('.dash')
+                el = panelComponent.content.cloneNode(true)
+                node.appendChild(el)
+            }
+        </script>
     </body>
 </html>

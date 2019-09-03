@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Fake server</title>
+        <style>
+            body { margin: 0; height: 100vh; display: flex; justify-content: center; align-items: center }
+            .container { max-width: 30rem }
+            div > span { float: right }
+            [class*="_on"] { background: orange }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+
+            <div style="text-align:center" damo-id="boat.name" class="boatName">Poulpos</div>
+            <table style="width:100%"><tbody><tr>
+                <td style="text-align:center"><div class="sail gv3foc3_off" damo-trigger="changeSail(this)" title="GV 3 Foc 3">GV 3 Foc 3</div></td>
+                <td style="text-align:center"><div class="sail gv2foc2_off" damo-trigger="changeSail(this)" title="GV 2 Foc 2">GV 2 Foc 2</div></td>
+                <td style="text-align:center"><div class="sail gv1foc1_off" damo-trigger="changeSail(this)" title="GV 1 Foc 1">GV 1 Foc 1</div></td>
+                <td style="text-align:center"><div class="sail gv0gen_on red" damo-trigger="changeSail(this)" title="GV Genois">GV Genois</div></td>
+                <td style="text-align:center"><div class="sail gv0spi_off" damo-trigger="changeSail(this)" title="GV Spi">GV Spi</div></td>
+            </tr></tbody></table>
+            <div class="capCapReg">
+                <table style="width:100%"><tbody><tr>
+                    <td style="text-align:left"><span>Route</span> <input type="text" id="boat.cap" damo-trigger="changeReg(false)" class="cap cap_on"></td>
+                    <td style="text-align:right"><span>Wind</span> <input type="text" id="boat.capReg" damo-trigger="changeReg(true)" class="cap cap_off"></td>
+                </tr></tbody></table>
+            </div>
+
+            <div>Cap : <span damo-id="boat.wind.cap">170</span></div>
+            <div>Wind : <span damo-id="boat.wind.force">4.56</span></div>
+            <div>Chrono : <span damo-id="chrono.current.chrono">0d 0h 0mn 0s</span></div>
+            <div>Lon : <span damo-id="boat.pos.lon">2.846515</span></div>
+            <div>Lat : <span damo-id="boat.pos.lat">47.891462</span></div>
+
+        </div>
+
+        <script>
+            // Change values.
+
+        </script>
+
+    </body>
+</html>

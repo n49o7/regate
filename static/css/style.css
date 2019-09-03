@@ -1,24 +1,89 @@
 /* DEBUG */
 
-div { border: 1px solid lightgrey }
+/* div { border: 1px solid lightgrey } */
 
-/* COMMON */
+/* VARS & UTILITIES */
 
-:root {
-    --base-padding: .5em
-}
+:root { --base-padding: .4rem }
 
 .flex-row { display: flex; flex-direction: row }
+
 .flex-col { display: flex; flex-direction: column }
+
 .expand { flex: 1 }
 
-/* INDIVIDUAL */
+.tab-content { display: none; }
+.tab-locator:nth-of-type(1):checked ~ .tabs > .tab-content:nth-of-type(1),
+.tab-locator:nth-of-type(2):checked ~ .tabs > .tab-content:nth-of-type(2) {
+    display:block;
+}
+
+/* LAYOUT */
 
 body { margin: 0; min-height: 100vh }
-.header { padding: var(--base-padding); justify-content: space-between }
 
-.right { width: 30% }
+.header { z-index: 10 }
+
+.dash { padding: 1px; display: flex; flex-direction: row }
+
+.sidebar { width: 18em }
+
+.sep-horizontal {  min-height: 1px; cursor: ns-resize }
+.sep-horizontal:hover { min-height: 3px; box-shadow: 0 0 12px 1px #000; z-index: 9 }
+.sep-vertical { min-width: 1px; cursor: ew-resize }
+.sep-vertical:hover { min-width: 3px; box-shadow: 0 0 12px 1px #000; z-index: 9 }
+
+/* .view { border-radius: 6px } */
+.view { padding: var(--base-padding) } /* remove */
+
+.setting, .toaster { margin-bottom: .4rem }
+.setting > .form-switch { float: right }
+
+/* SPECTRE SUPPLEMENTS & TWEAKS */
+
+.tab { margin-top: 0 !important } /* remove */
+.tab-item > label > a { padding-top: 0 !important } /* remove */
 
 /* COLORS */
 
-.header { background: #0100A4 }
+:root {
+    /* Broadcast */
+    --bg: #2B2B2B;
+    --text: #E6E1DD;
+    --text-bright: #FFFFFF;
+    --red: #DB493A;
+    --red-bright: #FF7B6C;
+    --green: #51A051;
+    --green-bright: #FF7B6C;
+    --yellow: #FFD249;
+    --yellow-bright: #FEFF7B;
+    --blue: #6E9CBE;
+    --blue-bright: #A0CEF0;
+    --purple: #CFD0FE;
+    --purple-bright: #FEFF7B;
+}
+
+body { color: var(--text) }
+body, .separator { background: #000 }
+
+.header, .header * { background: var(--blue); color: var(--text) }
+.header .mode { color: var(--text-bright) }
+
+.view { background: var(--bg) }
+
+[data-theme="bright"] {
+    /* 3024 Day */
+    --bg: #F7F7F7;
+    --text: #4A4542;
+    --text-bright: #000000;
+}
+
+/* FONTS */
+
+
+
+/* RESPONSIVE */
+
+@media screen and (max-width: 600px) {
+  .dash { flex-direction: column; }
+}
