@@ -22,15 +22,15 @@
             </tr></tbody></table>
             <div class="capCapReg">
                 <table style="width:100%"><tbody><tr>
-                    <td style="text-align:left"><span>Route</span> <input type="text" damo-id="boat.cap" onchange="changeReg(false)" class="cap _on randomize"></td>
+                    <td style="text-align:left"><span>Route</span> <input type="text" damo-id="boat.cap" onchange="changeReg()" class="cap _on randomAngle"></td>
                     <!-- <td style="text-align:right"><span>Wind</span> <input type="text" damo-id="boat.capReg" onchange="changeReg(true)" class="cap _off randomize"></td> -->
-                    <td style="text-align:right"><span>Wind</span> <span id="capReg">0</span></td>
+                    <td style="text-align:right"><span>Wind angle</span> <span damo-id="boat.capReg">0</span></td>
                 </tr></tbody></table>
             </div>
 
-            <div>Boat speed : <span damo-id="boat.speed" class="randomize">6.51</span></div>
-            <div>Wind azi. : <span damo-id="boat.wind.cap" class="randomize">170</span></div>
-            <div>Wind speed : <span damo-id="boat.wind.force" class="randomize">4.56</span></div>
+            <div>Boat speed : <span damo-id="boat.speed" class="randomFloat">6.51</span></div>
+            <div>Wind azi. : <span damo-id="boat.wind.cap" class="randomAngle">170</span></div>
+            <div>Wind speed : <span damo-id="boat.wind.force" class="randomFloat">4.56</span></div>
             <div>Chrono : <span damo-id="chrono.current.chrono">0d 0h 0mn 0s</span></div>
             <div>Lon : <span damo-id="boat.pos.lon">2.846515</span></div>
             <div>Lat : <span damo-id="boat.pos.lat">47.891462</span></div>
@@ -38,6 +38,11 @@
         </div>
 
         <script>
+            window.onload = function() {
+                changeReg()
+                z = new Date()
+                displayChrono()
+            }
             // Sail selector.
             function changeSail(t) {
                 c = document.querySelector('._on')
@@ -47,51 +52,46 @@
                 t.classList.add('_on')
             }
             // Heading selector.
-            var rel = document.querySelector('[damo-id="boat.cap"]')
-            var wel = document.querySelector('[damo-id="boat.capReg"]')
-            var wael = document.querySelector('[damo-id="boat.wind.cap"]')
-            function relr(wind) {
-                route = wael.textContent - wind
-                if (route>360) { return route-360 }
-                else { return route }
-                // return 'math'
-            }
-            function relw(route) {
-                relw = route + wel.value
-                if (relw>180) { return relw-360 }
-                else { return relw }
-                // return 'math'
-            }
-            function changeReg(b) {
-                if (b) {
-                    rel.classList.add('_off')
-                    rel.classList.remove('_on')
-                    wel.classList.add('_on')
-                    wel.classList.remove('_off')
-                    rel.value = relr(wel.value)
-                } else {
-                    rel.classList.add('_on')
-                    rel.classList.remove('_off')
-                    wel.classList.add('_off')
-                    wel.classList.remove('_on')
-                    wel.value = relw(rel.value)
-                }
+            rel = document.querySelector('[damo-id="boat.cap"]')
+            wel = document.querySelector('[damo-id="boat.capReg"]')
+            wael = document.querySelector('[damo-id="boat.wind.cap"]')
+            function changeReg() {
+                relw = Number(wael.textContent) - Number(rel.value)
+                if ( relw > 180 ) { relw -= 360 }
+                wel.textContent = relw
             }
             // Change values.
             function r() {
-                els = document.querySelectorAll('.randomize')
-                els.forEach( e => {
-                    d = Math.floor(Math.random() * 4) - 2
-                    console.log(d)
-                    if (e.textContent) {
-                        // console.log(e.textContent)
-                        e.textContent = d + Number(e.textContent)
-                    } else {
-                        // console.log(e.value)
-                        e.value = d + Number(e.value)
-                    }
+                floatEls = document.querySelectorAll('.randomFloat')
+                floatEls.forEach( e => {
+                    max = 10
+                    min = 0
+                    d = (Math.random() * (max - min) + min)
+                    // e.textContent = (parseFloat(e.textContent) + d).toFixed(2)
+                    e.textContent = d.toFixed(2)
                 } )
+                intEls = document.querySelectorAll('.randomAngle')
+                intEls.forEach( e => {
+                    max = 360
+                    min = 0
+                    d = Math.floor(min + Math.random()*(max + 1 - min))
+                    // e.textContent = parseInt(e.textContent) + d
+                    e.textContent ? e.textContent = d : e.value = d
+                } )
+                changeReg()
+                return null
             }
+            // Chrono.
+            timerID = 0
+            function displayChrono() {
+                t = new Date()
+                d = t - z
+                d = new Date(d)
+                el = document.querySelector('[damo-id="chrono.current.chrono"]')
+                timerID = setTimeout("displayChrono()", 1000)
+                el.textContent = d.getHours()-1 + 'h ' + d.getMinutes() + 'mn ' + d.getSeconds() + 's'
+            }
+
             // Angle normalization cheatsheet.
             // reduce the angle
             // angle =  angle % 360;
