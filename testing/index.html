@@ -14,21 +14,23 @@
 
             <div style="text-align:center" damo-id="boat.name" class="boatName">Poulpos</div>
             <table style="width:100%"><tbody><tr>
-                <td style="text-align:center"><div class="sail gv3foc3_off" damo-trigger="changeSail(this)" title="GV 3 Foc 3">GV 3 Foc 3</div></td>
-                <td style="text-align:center"><div class="sail gv2foc2_off" damo-trigger="changeSail(this)" title="GV 2 Foc 2">GV 2 Foc 2</div></td>
-                <td style="text-align:center"><div class="sail gv1foc1_off" damo-trigger="changeSail(this)" title="GV 1 Foc 1">GV 1 Foc 1</div></td>
-                <td style="text-align:center"><div class="sail gv0gen_on red" damo-trigger="changeSail(this)" title="GV Genois">GV Genois</div></td>
-                <td style="text-align:center"><div class="sail gv0spi_off" damo-trigger="changeSail(this)" title="GV Spi">GV Spi</div></td>
+                <td style="text-align:center"><div class="sail _off" onclick="changeSail(this)" title="GV 3 Foc 3">GV 3 Foc 3</div></td>
+                <td style="text-align:center"><div class="sail _off" onclick="changeSail(this)" title="GV 2 Foc 2">GV 2 Foc 2</div></td>
+                <td style="text-align:center"><div class="sail _off" onclick="changeSail(this)" title="GV 1 Foc 1">GV 1 Foc 1</div></td>
+                <td style="text-align:center"><div class="sail _on" onclick="changeSail(this)" title="GV Genois">GV Genois</div></td>
+                <td style="text-align:center"><div class="sail _off" onclick="changeSail(this)" title="GV Spi">GV Spi</div></td>
             </tr></tbody></table>
             <div class="capCapReg">
                 <table style="width:100%"><tbody><tr>
-                    <td style="text-align:left"><span>Route</span> <input type="text" id="boat.cap" damo-trigger="changeReg(false)" class="cap cap_on"></td>
-                    <td style="text-align:right"><span>Wind</span> <input type="text" id="boat.capReg" damo-trigger="changeReg(true)" class="cap cap_off"></td>
+                    <td style="text-align:left"><span>Route</span> <input type="text" damo-id="boat.cap" onchange="changeReg(false)" class="cap _on randomize"></td>
+                    <!-- <td style="text-align:right"><span>Wind</span> <input type="text" damo-id="boat.capReg" onchange="changeReg(true)" class="cap _off randomize"></td> -->
+                    <td style="text-align:right"><span>Wind</span> <span id="capReg">0</span></td>
                 </tr></tbody></table>
             </div>
 
-            <div>Cap : <span damo-id="boat.wind.cap">170</span></div>
-            <div>Wind : <span damo-id="boat.wind.force">4.56</span></div>
+            <div>Boat speed : <span damo-id="boat.speed" class="randomize">6.51</span></div>
+            <div>Wind azi. : <span damo-id="boat.wind.cap" class="randomize">170</span></div>
+            <div>Wind speed : <span damo-id="boat.wind.force" class="randomize">4.56</span></div>
             <div>Chrono : <span damo-id="chrono.current.chrono">0d 0h 0mn 0s</span></div>
             <div>Lon : <span damo-id="boat.pos.lon">2.846515</span></div>
             <div>Lat : <span damo-id="boat.pos.lat">47.891462</span></div>
@@ -36,7 +38,68 @@
         </div>
 
         <script>
+            // Sail selector.
+            function changeSail(t) {
+                c = document.querySelector('._on')
+                c.classList.remove('_on')
+                c.classList.add('_off')
+                t.classList.remove('_off')
+                t.classList.add('_on')
+            }
+            // Heading selector.
+            var rel = document.querySelector('[damo-id="boat.cap"]')
+            var wel = document.querySelector('[damo-id="boat.capReg"]')
+            var wael = document.querySelector('[damo-id="boat.wind.cap"]')
+            function relr(wind) {
+                route = wael.textContent - wind
+                if (route>360) { return route-360 }
+                else { return route }
+                // return 'math'
+            }
+            function relw(route) {
+                relw = route + wel.value
+                if (relw>180) { return relw-360 }
+                else { return relw }
+                // return 'math'
+            }
+            function changeReg(b) {
+                if (b) {
+                    rel.classList.add('_off')
+                    rel.classList.remove('_on')
+                    wel.classList.add('_on')
+                    wel.classList.remove('_off')
+                    rel.value = relr(wel.value)
+                } else {
+                    rel.classList.add('_on')
+                    rel.classList.remove('_off')
+                    wel.classList.add('_off')
+                    wel.classList.remove('_on')
+                    wel.value = relw(rel.value)
+                }
+            }
             // Change values.
+            function r() {
+                els = document.querySelectorAll('.randomize')
+                els.forEach( e => {
+                    d = Math.floor(Math.random() * 4) - 2
+                    console.log(d)
+                    if (e.textContent) {
+                        // console.log(e.textContent)
+                        e.textContent = d + Number(e.textContent)
+                    } else {
+                        // console.log(e.value)
+                        e.value = d + Number(e.value)
+                    }
+                } )
+            }
+            // Angle normalization cheatsheet.
+            // reduce the angle
+            // angle =  angle % 360;
+            // force it to be the positive remainder, so that 0 <= angle < 360
+            // angle = (angle + 360) % 360;
+            // force into the minimum absolute value residue class, so that -180 < angle <= 180
+            // if (angle > 180)
+            // angle -= 360;
 
         </script>
 
