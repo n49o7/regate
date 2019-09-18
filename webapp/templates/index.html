@@ -9,6 +9,7 @@
         <!-- CUSTOM -->
         <link rel="stylesheet" href="static/css/style.css"/>
         <script type="text/javascript" src="static/javascript/knockout.js"></script>
+        <!-- <script type="text/javascript" src="static/javascript/isomer/isomer.js"></script> -->
         <!-- <script type="text/javascript" src="static/javascript/stamp.js"></script> -->
         <!-- <style></style> -->
     </head>
@@ -36,7 +37,7 @@
                         <li class="tab-item"><label for="tab2"><a data-bind="text: data[data.dash()].b"></a></label></li>
                     </ul>
                     <div class="tabs">
-                        <div class="tab-content" data-bind="template: {name: data[data.dash()].a}"></div>
+                        <div class="tab-content" data-bind="template: {name: data[data.dash()].a; afterRender: test}"></div>
                         <div class="tab-content" data-bind="template: {name: data[data.dash()].b}"></div>
                     </div>
                 </div>
@@ -66,6 +67,7 @@
 
         <template id="perf">
             <div>performance model</div>
+            <canvas id="perfCanvas"></canvas>
         </template>
 
         <template id="map">
@@ -238,6 +240,35 @@
                 el = panelComponent.content.cloneNode(true)
                 node.appendChild(el)
             }
+            /* PILOT MODE LOGIC */
+            viewModel.test = function(elements) {
+                console.log('Hello from test().')
+            }
+            // function perfCanvasFill() {
+            //     var iso = new Isomer(document.getElementById("perfcanvas"));
+            //     var red = new Color(160, 60, 50);
+            //     var blue = new Color(50, 60, 160);
+            //     var green = new Color(50, 160, 60);
+            //     var data = [
+            //         [0,1,1],
+            //         [0,2,2],
+            //         [0,3,3],
+            //         [1,1,4],
+            //         [1,2,6],
+            //         [3,3,9]
+            //         ]
+            //     data.forEach(e => {
+            //         let x = e[0]
+            //         let y = e[1]
+            //         let z = e[2]
+            //         iso.add(new Path([
+            //           Point(x-.5, y-.5, e[2]),
+            //           Point(x+.5, y-.5, e[2]),
+            //           Point(x+.5, y+.5, e[2]),
+            //           Point(x-.5, y+.5, e[2])
+            //         ]), green);
+            //     })
+            // }
         </script>
     </body>
 </html>

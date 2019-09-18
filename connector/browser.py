@@ -3,12 +3,12 @@
 from selenium import webdriver
 import time
 
-def initialize():
+def initialize(url):
     """ Launch a browser """
     global browser
     browser = webdriver.Firefox()
-    browser.get("https://excess-catamarans.com/challenge")
-    browser.find_element_by_id('accept-cookies').click()
+    browser.get(url)
+    # browser.find_element_by_id('accept-cookies').click()
     browser.switch_to.frame("login-iframe")
 
 def login(u, p):
@@ -24,6 +24,6 @@ def login(u, p):
     # browser.execute_script("arguments[0].scrollIntoView();", b)
     b.click()
 
-def quit(delay):
+def quit(delay=80):
     time.sleep(delay)
     browser.close()

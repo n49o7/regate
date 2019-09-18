@@ -1,15 +1,13 @@
 """
-Scrape data from the web interface.
+Check and organize data.
 """
-
 
 import csv
 import time
 import datetime
 import logging
-logging.basicConfig(filename='regate.log',level=logging.INFO)
 
-
+logging.basicConfig(filename='collect.log',level=logging.INFO)
 
 def current_sail():
     """ Get the current sail """
@@ -66,35 +64,20 @@ def record(limit=30, i=4):
         time.sleep(i)
     logging.info('Ended recording %s', datetime.datetime.now())
 
-# def minimalize():
-# """ Manipulate the CSS for a cleaner virtual sailing experience """
-#     title
-#         0000000000000
-#     header, footer, .banner
-#         visibility: collapse
-#
-#         display: flex /
-#     .site_content
-#         max-width: none
-#     iframe
-#         .video-wrapper, .banner
-#             visibility: collapse
-#         body
-#             background: none / repeat
-#         .mapBlock
-#             position: inherit
-#         #windMenu
-#             left: none
-#             top: none
-#             margin:10px 0 0 10px
-#
-#         video-wrapper
-#             visibility: collapse
-#
-#             display: inherit
-#             border: none
-#             top: none
-#             left: none
-#         #mapContainer, .containerUp
-#             box-shadow: none
-#             border: 1px solid #AAA
+def detect(limit=30):
+    """ If the latest wind speed is of interest, sail in circles. """
+    # "limit" is (very) roughly the number of minutes to run this for
+    global w_spd_todo
+    logging.info('Started detecting %s', datetime.datetime.now())
+    t = 0
+    while 0 <= t <= limit*1.5:
+        browser.params()
+        s = round(float(browser.data[1]))
+        if s in w_spd_todo:
+            logging.info('Wind found: %s. Sails found: %s.', s, w_spd_todo[s])
+            limit -= len(w_spd_todo[s]) * 6
+            circle(sails=w_spd_todo[s])
+            del w_spd_todo[s]
+        t += 1
+        time.sleep(40)
+    logging.info('Ended detecting %s', datetime.datetime.now())

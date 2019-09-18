@@ -83,7 +83,7 @@ def est_datetime(date, time, chrono):
 def closest(df, param, target):
     """
         Find the closest point for which there is data.
-        "closest(closest(x))" only makes sense in planar space!
+        "closest(closest(x))" only makes sense in an isometric space!
     """
     x = df.iloc[df.eval(param+'-'+str(target)).abs().argsort()]
     return x[x[param]==x.iloc[0][param]]
@@ -121,10 +121,6 @@ def seg_duration(seg, date, time):
     duration = round(dist/b_spd, 2)
     return float(duration)
 
-def wind_angle(rte, w_azi):
-    """ Wind angle. """
-    return rte - w_azi
-
 def speed_at(w_ang, w_spd):
     """ Best recorded speed. """
     return perf_speed.iloc[w_spd, w_ang]
@@ -133,51 +129,36 @@ def sail_at(w_ang, w_spd):
     """ Sail used for best recorded speed. """
     return perf_sail.iloc[w_spd, w_ang]
 
-def ang_abs(a):
-    """ Return the absolute value of an angle (eg. the wind angle), between 0 and 180. """
-    return int( np.degrees(np.arccos(np.cos(np.radians( int(a) % 360 )))) )
+def sails(w_ang, w_spd):
+    """ Sail to use for best interpolated speed. """
+    return perf_sails.iloc[w_spd, w_ang].replace(' ','-')
 
-def dm_to_dd(dms):
-    """ Convert degrees-minutes to decimal degrees. """
-    d = float( dms.split('°')[0] )
-    m = float( dms.split('°')[1][:-1] )
-    return round( d + m/60, 6 )
+def time(distance, w_spd, w_ang):
+    """ Predicted travel time according to deviation from route. """
+    s = speed(w_ang, w_spd)
+    t = np.round(distance/(2*s), 2)
+    return [s, t]
 
-def dd_to_dm(dd):
-    """ Convert decimal degrees to degrees-minutes. """
-    d = dd // 1
-    m = dd % 1*60
-    return str(d)+'° '+str(round(m,3))+"'"
-
-def tf(time):
-    """ Format a potentially decimal number of hours. """
-    if '.' in str(time):
-        return str(int(time-time%1)) + 'h ' + str(int(60*(time%1))) + 'm'
-    else:
-        return str(time) + 'h'
-
-def df(date):
-    """ Format a date from YYYYMMDD. """
-    date = str(date)
-    return date[:4]+'.'+date[4:6]+'.'+date[6:]
-
-
-
-
-
-
-
-import altair as alt
-# import seaborn as sns
-#
-
-t = pd.DataFrame([], columns=["ang","ang_abs"])
-
-for ang in np.arange(-200, 200, 0.33):
-    # print({'ang':ang,'ang_abs':ang_abs(ang)})
-    t = t.append({'ang':ang,'ang_abs':ang_abs(ang)}, ignore_index=True)
-
-alt.Chart(t).mark_point().encode(
-    x = 'ang',
-    y = 'ang_abs'
-)
+# def simulate(route, distance, w_spd, w_azi):
+#     w_ang = wind(w_azi, route)
+#     print('Route:', route, '°')
+#     print('Wind:', w_azi, '°')
+#     print('Wind angle:', w_ang, '°')
+#     print('Best performance:', speed(w_ang, w_spd),'kn')
+#     # print("Sail to use:", sails(w_ang,w_spd))
+#     global f
+#     l = []
+#     for deviation in range(89):
+#         d_rad = np.radians(deviation)
+#         detour = (distance/np.cos(d_rad))
+#         d_rel = +deviation if w_ang > 0 else -deviation
+#         w_ang_l = wind(w_azi+d_rel, route)
+#         w_ang_p = wind(w_azi-d_rel, route)
+#         t_l = time(detour, w_spd, w_ang_l)
+#         t_p = time(detour, w_spd, w_ang_p)
+#         sail_l = sails(w_ang_l, w_spd)
+#         sail_p = sails(w_ang_p, w_spd)
+#         l.append( [deviation] + [route-d_rel] + [w_ang_l] + t_l + [sail_l] + [route+d_rel] + [w_ang_p] + t_p + [sail_p] + [t_l[1]+t_p[1]] )
+#     # f = pd.DataFrame(l, columns=['dev', 'speed_L','time_L','speed_P','time_P','time_sum']).set_index(['dev'])
+#     f = pd.DataFrame(l, columns=['dev','cap_L','w_ang_L','speed_L','time_L','sail_L','cap_P','w_ang_P','speed_P','time_P','sail_P','time_sum'])
+#     # print(l)

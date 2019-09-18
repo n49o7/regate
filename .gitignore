@@ -1,6 +1,7 @@
 charts/
+geo/
+img/
+logs/
 __pycache__/
 
-geckodriver.log
-run.py
-regate.log
+connector/analyze.py
